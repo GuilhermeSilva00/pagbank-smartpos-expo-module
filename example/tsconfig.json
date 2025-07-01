@@ -1,0 +1,10 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "pagbank-smartpos-expo-module": ["../src/index"],
+      "pagbank-smartpos-expo-module/*": ["../src/*"]
+    }
+  }
+}
