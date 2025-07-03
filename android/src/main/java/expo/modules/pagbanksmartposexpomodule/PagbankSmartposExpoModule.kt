@@ -2,9 +2,17 @@ package expo.modules.pagbanksmartposexpomodule
 
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
+import expo.modules.pagbanksmartposexpomodule.domain.Activation
 import java.net.URL
 
+import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag
+import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagActivationData
+
 class PagbankSmartposExpoModule : Module() {
+
+  private lateinit var instancePlugPag: PlugPag
+
+
   // Each module class must implement the definition function. The definition consists of components
   // that describes the module's functionality and behavior.
   // See https://docs.expo.dev/modules/module-api for more details about available components.
@@ -13,6 +21,10 @@ class PagbankSmartposExpoModule : Module() {
     // Can be inferred from module's class name, but it's recommended to set it explicitly for clarity.
     // The module will be accessible from `requireNativeModule('PagbankSmartposExpoModule')` in JavaScript.
     Name("PagbankSmartposExpoModule")
+
+    OnCreate {
+      instancePlugPag = PlugPag(appContext.reactContext)
+    }
 
     // Sets constant properties on the module. Can take a dictionary or a closure that returns a dictionary.
     Constants(
@@ -34,6 +46,12 @@ class PagbankSmartposExpoModule : Module() {
       sendEvent("onChange", mapOf(
         "value" to value
       ))
+    }
+
+    AsyncFunction("activate") { code: String ->
+      val activation = Activation(instancePlugPag)
+      val response = activation.handleActivationPos(PlugPagActivationData(code))
+      println(response)
     }
 
     // Enables the module to be used as a native view. Definition components that are accepted as part of

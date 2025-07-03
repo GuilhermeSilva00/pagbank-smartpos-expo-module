@@ -151,6 +151,10 @@ dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
 
+    //Pagseguro
+    implementation 'com.android.support:design:28.0.0'
+    implementation 'br.com.uol.pagseguro.plugpagservice.wrapper:wrapper:1.27.2'
+
     def isGifEnabled = (findProperty('expo.gif.enabled') ?: "") == "true";
     def isWebpEnabled = (findProperty('expo.webp.enabled') ?: "") == "true";
     def isWebpAnimatedEnabled = (findProperty('expo.webp.animated') ?: "") == "true";
