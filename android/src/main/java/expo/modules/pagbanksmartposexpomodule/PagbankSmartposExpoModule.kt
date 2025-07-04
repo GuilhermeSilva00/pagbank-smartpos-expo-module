@@ -48,11 +48,38 @@ class PagbankSmartposExpoModule : Module() {
       ))
     }
 
-    AsyncFunction("activate") { code: String ->
+    AsyncFunction("activateAsync") { code: String, promise: Promise ->
       val activation = Activation(instancePlugPag)
-      val response = activation.handleActivationPos(PlugPagActivationData(code))
-      println(response)
+      val data = PlugPagActivationData(code)
+
+      activation.handleActivationPos(
+        data,
+        onSuccess = { result ->
+          promise.resolve(
+            mapOf(
+              "success" to true,
+              "result" to result.result,
+              "errorCode" to result.errorCode,
+              "errorMessage" to result.errorMessage
+            )
+          )
+        },
+        onError = { result ->
+          promise.resolve(
+            mapOf(
+              "success" to false,
+              "result" to result.result,
+              "errorCode" to result.errorCode,
+              "errorMessage" to result.errorMessage
+            )
+          )
+        },
+        onProgress = { event ->
+          sendEvent("onChangeActivateProgress", mapOf("progress" to event.customMessage))
+        }
+      )
     }
+
 
     // Enables the module to be used as a native view. Definition components that are accepted as part of
     // the view definition: Prop, Events.

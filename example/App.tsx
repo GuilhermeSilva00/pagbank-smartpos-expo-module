@@ -22,6 +22,12 @@ export default function App() {
               await PagbankSmartposExpoModule.setValueAsync('Hello from JS!');
             }}
           />
+          <Button
+            title="Set value"
+            onPress={async () => {
+              await PagbankSmartposExpoModule.activateAsync('749879'); //development code
+            }}
+          />
         </Group>
         <Group name="Events">
           <Text>{onChangePayload?.value}</Text>
