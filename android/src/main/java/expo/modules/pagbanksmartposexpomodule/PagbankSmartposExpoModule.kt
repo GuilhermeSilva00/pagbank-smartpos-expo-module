@@ -2,6 +2,7 @@ package expo.modules.pagbanksmartposexpomodule
 
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
+import expo.modules.kotlin.Promise
 import expo.modules.pagbanksmartposexpomodule.domain.Activation
 import java.net.URL
 
@@ -32,7 +33,7 @@ class PagbankSmartposExpoModule : Module() {
     )
 
     // Defines event names that the module can send to JavaScript.
-    Events("onChange")
+    Events("onChange", "onChangeActivateProgress")
 
     // Defines a JavaScript synchronous function that runs the native code on the JavaScript thread.
     Function("hello") {

@@ -9,15 +9,11 @@ applyKotlinExpoModulesCorePlugin()
 useCoreDependencies()
 useExpoPublishing()
 
-// If you want to use the managed Android SDK versions from expo-modules-core, set this to true.
-// The Android SDK versions will be bumped from time to time in SDK releases and may introduce breaking changes in your module code.
-// Most of the time, you may like to manage the Android SDK versions yourself.
 def useManagedAndroidSdkVersions = false
 if (useManagedAndroidSdkVersions) {
   useDefaultAndroidSdkVersions()
 } else {
   buildscript {
-    // Simple helper that allows the root project to override versions declared by this library.
     ext.safeExtGet = { prop, fallback ->
       rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
     }
@@ -40,4 +36,14 @@ android {
   lintOptions {
     abortOnError false
   }
+}
+
+repositories {
+  maven { url 'https://www.jitpack.io' }
+  maven { url "https://github.com/pagseguro/PlugPagServiceWrapper/raw/master" }
+}
+
+dependencies {
+  implementation 'com.android.support:design:28.0.0'
+  implementation 'br.com.uol.pagseguro.plugpagservice.wrapper:wrapper:1.27.2'
 }

@@ -1,6 +1,13 @@
+package expo.modules.pagbanksmartposexpomodule.domain
+
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagActivationData
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagActivationListener
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagInitializationResult
+import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagEventData
+
+import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag
+import br.com.uol.pagseguro.plugpagservice.wrapper.doAsyncInitializeAndActivatePinpad
+
 
 class Activation (private val plugPag: PlugPag) {
 

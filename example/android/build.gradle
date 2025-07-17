@@ -27,9 +27,8 @@ allprojects {
       url(reactNativeAndroidDir)
     }
 
-    maven {  
-      url 'https://github.com/pagseguro/PlugPagServiceWrapper/raw/master'
-    }
+    maven { url 'https://www.jitpack.io' }
+    maven { url "https://github.com/pagseguro/PlugPagServiceWrapper/raw/master" }
 
     google()
     mavenCentral()

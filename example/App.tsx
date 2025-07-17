@@ -5,6 +5,11 @@ import { Button, SafeAreaView, ScrollView, Text, View } from 'react-native';
 export default function App() {
   const onChangePayload = useEvent(PagbankSmartposExpoModule, 'onChange');
 
+  async function activate() {
+    const data = await PagbankSmartposExpoModule.activateAsync('749879');
+    console.log('data:', data)
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.container}>
@@ -23,10 +28,8 @@ export default function App() {
             }}
           />
           <Button
-            title="Set value"
-            onPress={async () => {
-              await PagbankSmartposExpoModule.activateAsync('749879'); //development code
-            }}
+            title="Activate"
+            onPress={activate}
           />
         </Group>
         <Group name="Events">
