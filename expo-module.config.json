@@ -1,0 +1,9 @@
+{
+  "platforms": ["apple", "android", "web"],
+  "apple": {
+    "modules": ["PagbankSmartposExpoModule"]
+  },
+  "android": {
+    "modules": ["expo.modules.pagbanksmartposexpomodule.PagbankSmartposExpoModule"]
+  }
+}
