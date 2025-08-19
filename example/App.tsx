@@ -1,37 +1,36 @@
 import { useEvent } from 'expo';
-import PagbankSmartposExpoModule, { PagbankSmartposExpoModuleView } from 'pagbank-smartpos-expo-module';
+import PagbankSmartposExpoModule from 'pagbank-smartpos-expo-module';
 import { Button, SafeAreaView, ScrollView, Text, View } from 'react-native';
+import React from 'react';
 
 export default function App() {
-  const onChangePayload = useEvent(PagbankSmartposExpoModule, 'onChange');
+  //const onChangePayload = useEvent(PagbankSmartposExpoModule, 'onChange');
+
+  const [message, setMessage] = React.useState('');
+
+  async function initializeAndActivatePinpad() {
+    try {
+      const activationData = await PagbankSmartposExpoModule.doAsyncInitializeAndActivatePinpad('749879');
+      console.log('Pinpad activated:', activationData);
+      setMessage(`Pinpad activated: ${JSON.stringify(activationData)}`);
+    } catch (error) {
+      console.error('Error activating pinpad:', error);
+      setMessage(`Error activating pinpad: ${error?.message || error}`);
+    }
+  }
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.container}>
         <Text style={styles.header}>Module API Example</Text>
-        <Group name="Constants">
-          <Text>{PagbankSmartposExpoModule.PI}</Text>
-        </Group>
-        <Group name="Functions">
-          <Text>{PagbankSmartposExpoModule.hello()}</Text>
-        </Group>
         <Group name="Async functions">
           <Button
-            title="Set value"
-            onPress={async () => {
-              await PagbankSmartposExpoModule.setValueAsync('Hello from JS!');
-            }}
+            title="initializeAndActivatePinpad"
+            onPress={initializeAndActivatePinpad}
           />
         </Group>
-        <Group name="Events">
-          <Text>{onChangePayload?.value}</Text>
-        </Group>
-        <Group name="Views">
-          <PagbankSmartposExpoModuleView
-            url="https://www.example.com"
-            onLoad={({ nativeEvent: { url } }) => console.log(`Loaded: ${url}`)}
-            style={styles.view}
-          />
+        <Group name="Result">
+          <Text>{message}</Text>
         </Group>
       </ScrollView>
     </SafeAreaView>

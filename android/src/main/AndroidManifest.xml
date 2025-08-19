@@ -1,2 +1,15 @@
-<manifest>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="br.com.uol.pagseguro.permission.MANAGE_PAYMENTS" />
+
+    <application>
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            
+            <intent-filter>
+                <action android:name="br.com.uol.pagseguro.PAYMENT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+    </application>
 </manifest>

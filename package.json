@@ -28,16 +28,21 @@
   "author": "GuilhermeSilva00 <guiluis.silva00@gmail.com> (GuilhermeSilva00)",
   "license": "MIT",
   "homepage": "https://github.com/GuilhermeSilva00/pagbank-smartpos-expo-module.git#readme",
-  "dependencies": {},
   "devDependencies": {
     "@types/react": "~19.0.0",
-    "expo-module-scripts": "^4.1.10",
     "expo": "~53.0.0",
+    "expo-module-scripts": "^4.1.10",
+    "expo-modules-core": "^2.5.0",
     "react-native": "0.79.1"
   },
   "peerDependencies": {
     "expo": "*",
     "react": "*",
     "react-native": "*"
+  },
+  "peerDependenciesMeta": {
+    "expo": {
+      "optional": true
+    }
   }
 }

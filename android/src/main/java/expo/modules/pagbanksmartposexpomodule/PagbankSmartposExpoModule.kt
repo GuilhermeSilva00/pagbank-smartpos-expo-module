@@ -1,50 +1,70 @@
 package expo.modules.pagbanksmartposexpomodule
 
+import android.content.Context
+import android.util.Log
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
-import java.net.URL
+import expo.modules.kotlin.Promise
+
+import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag
+import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagActivationData
+import br.com.uol.pagseguro.plugpagservice.wrapper.listeners.PlugPagActivationListener
+import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagInitializationResult
+import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagEventData
 
 class PagbankSmartposExpoModule : Module() {
-  // Each module class must implement the definition function. The definition consists of components
-  // that describes the module's functionality and behavior.
-  // See https://docs.expo.dev/modules/module-api for more details about available components.
+
+  private val TAG = "PagbankSmartposExpoModule"
+  private lateinit var plugPag: PlugPag
+
   override fun definition() = ModuleDefinition {
-    // Sets the name of the module that JavaScript code will use to refer to the module. Takes a string as an argument.
-    // Can be inferred from module's class name, but it's recommended to set it explicitly for clarity.
-    // The module will be accessible from `requireNativeModule('PagbankSmartposExpoModule')` in JavaScript.
+
+    OnCreate {
+      val context: Context = appContext.reactContext?.applicationContext
+          ?: throw IllegalStateException("Contexto não encontrado para inicializar o PlugPag")
+      plugPag = PlugPag(context)
+      Log.i(TAG, "PlugPag inicializado: $plugPag")
+    }
+
     Name("PagbankSmartposExpoModule")
 
-    // Sets constant properties on the module. Can take a dictionary or a closure that returns a dictionary.
-    Constants(
-      "PI" to Math.PI
-    )
-
-    // Defines event names that the module can send to JavaScript.
     Events("onChange")
 
-    // Defines a JavaScript synchronous function that runs the native code on the JavaScript thread.
-    Function("hello") {
-      "Hello world! 👋"
-    }
+    AsyncFunction("doAsyncInitializeAndActivatePinpad") { activationCode: String, promise: Promise ->
+    plugPag.doAsyncInitializeAndActivatePinpad(
+        PlugPagActivationData(activationCode),
+        object : PlugPagActivationListener {
 
-    // Defines a JavaScript function that always returns a Promise and whose native code
-    // is by default dispatched on the different thread than the JavaScript runtime runs on.
-    AsyncFunction("setValueAsync") { value: String ->
-      // Send an event to JavaScript.
-      sendEvent("onChange", mapOf(
-        "value" to value
-      ))
-    }
+					override fun onSuccess(result: PlugPagInitializationResult) {
+						sendEvent("onChange", mapOf(
+							"status" to "success",
+							"result" to result.result,
+							"errorCode" to result.errorCode,
+							"errorMessage" to result.errorMessage
+						))
+						promise.resolve("Pinpad ativado com sucesso")
+					}
 
-    // Enables the module to be used as a native view. Definition components that are accepted as part of
-    // the view definition: Prop, Events.
-    View(PagbankSmartposExpoModuleView::class) {
-      // Defines a setter for the `url` prop.
-      Prop("url") { view: PagbankSmartposExpoModuleView, url: URL ->
-        view.webView.loadUrl(url.toString())
-      }
-      // Defines an event that the view can send to JavaScript.
-      Events("onLoad")
-    }
+            override fun onError(result: PlugPagInitializationResult) {
+							sendEvent("onChange", mapOf(
+								"status" to "error",
+								"result" to result.result,
+								"errorCode" to result.errorCode,
+								"errorMessage" to result.errorMessage
+							))
+							promise.reject(
+								"ACTIVATION_ERROR",
+								"Erro na ativação: ${result.errorMessage}",
+								null
+							)
+            }
+
+            override fun onActivationProgress(data: PlugPagEventData) {
+              sendEvent("onChange", mapOf("status" to "progress", "data" to data))
+            }
+        }
+    )
+}
+
   }
 }

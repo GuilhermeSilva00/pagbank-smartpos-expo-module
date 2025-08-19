@@ -11,9 +11,3 @@ export type PagbankSmartposExpoModuleEvents = {
 export type ChangeEventPayload = {
   value: string;
 };
-
-export type PagbankSmartposExpoModuleViewProps = {
-  url: string;
-  onLoad: (event: { nativeEvent: OnLoadEventPayload }) => void;
-  style?: StyleProp<ViewStyle>;
-};

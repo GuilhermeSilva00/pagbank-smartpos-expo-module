@@ -4,6 +4,12 @@
     "modules": ["PagbankSmartposExpoModule"]
   },
   "android": {
+    "gradleAarProjects": [
+      {
+        "name": "wrapper-1.30.51",
+        "aarFilePath": "android/libs/wrapper-1.30.51.aar"
+      }
+    ],
     "modules": ["expo.modules.pagbanksmartposexpomodule.PagbankSmartposExpoModule"]
   }
 }
