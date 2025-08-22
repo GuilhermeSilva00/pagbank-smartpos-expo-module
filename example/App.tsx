@@ -1,21 +1,21 @@
 import { useEvent } from 'expo';
-import PagbankSmartposExpoModule from 'pagbank-smartpos-expo-module';
+import PagbankSmartposExpoModule, { PlugPagSuccess, PlugPagError } from 'pagbank-smartpos-expo-module';
 import { Button, SafeAreaView, ScrollView, Text, View } from 'react-native';
 import React from 'react';
+import { 
+  ACTIVATION_TEST_CODE, 
+  doAsyncInitializeAndActivatePinpad 
+} from './PlugPagModule/doAsyncInitializeAndActivatePinpad';
 
 export default function App() {
   //const onChangePayload = useEvent(PagbankSmartposExpoModule, 'onChange');
 
-  const [message, setMessage] = React.useState('');
-
-  async function initializeAndActivatePinpad() {
+  async function handleDoAsyncInitializeAndActivatePinpad() {
     try {
-      const activationData = await PagbankSmartposExpoModule.doAsyncInitializeAndActivatePinpad('749879');
-      console.log('Pinpad activated:', activationData);
-      setMessage(`Pinpad activated: ${JSON.stringify(activationData)}`);
+      const result = await doAsyncInitializeAndActivatePinpad(ACTIVATION_TEST_CODE);
+      console.log('result: ', result);
     } catch (error) {
-      console.error('Error activating pinpad:', error);
-      setMessage(`Error activating pinpad: ${error?.message || error}`);
+      console.log('error: ', error);
     }
   }
 
@@ -25,13 +25,11 @@ export default function App() {
         <Text style={styles.header}>Module API Example</Text>
         <Group name="Async functions">
           <Button
-            title="initializeAndActivatePinpad"
-            onPress={initializeAndActivatePinpad}
+            title="InitializeAndActivatePinpad"
+            onPress={handleDoAsyncInitializeAndActivatePinpad}
           />
         </Group>
-        <Group name="Result">
-          <Text>{message}</Text>
-        </Group>
+        <Group name="Result"></Group>
       </ScrollView>
     </SafeAreaView>
   );
