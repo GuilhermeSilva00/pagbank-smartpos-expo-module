@@ -1,6 +1,16 @@
-import expo.modules.pagbanksmartposexpomodule.usecases.doAsyncInitializeAndActivatePinpad
+package expo.modules.pagbanksmartposexpomodule
+
+import android.content.Context
+import android.util.Log
+import expo.modules.kotlin.modules.Module
+import expo.modules.kotlin.modules.ModuleDefinition
+import expo.modules.kotlin.Promise
 
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag
+import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagPaymentData
+
+import expo.modules.pagbanksmartposexpomodule.usecases.doAsyncInitializeAndActivatePinpad
+import expo.modules.pagbanksmartposexpomodule.usecases.doAsyncPayment
 
 class PagbankSmartposExpoModule : Module() {
   private val TAG = "PagbankSmartposExpoModule"
@@ -16,7 +26,12 @@ class PagbankSmartposExpoModule : Module() {
 
     Name("PagbankSmartposExpoModule")
 
-    Events("onChange")
+    Events(
+      "onChangeActivation",
+      "onChangePayment",
+      "onChangePaymentPrint",
+      "onChangePaymentPassword"
+    )
 
     AsyncFunction("doAsyncInitializeAndActivatePinpad") { activationCode: String, promise: Promise ->
       doAsyncInitializeAndActivatePinpad(
@@ -26,5 +41,19 @@ class PagbankSmartposExpoModule : Module() {
         promise
       )
     }
+
+    AsyncFunction("doAsyncPayment") { paymentDataMap: Map<String, Any>, promise: Promise ->
+      val paymentData = PlugPagPaymentData(
+        type = (paymentDataMap["type"] as Number).toInt(),
+        amount = (paymentDataMap["amount"] as Number).toInt(),
+        installmentType = (paymentDataMap["installmentType"] as Number).toInt(),
+        installments = (paymentDataMap["installments"] as Number).toInt(),
+        userReference = paymentDataMap["userReference"] as? String,
+        printReceipt = paymentDataMap["printReceipt"] as? Boolean ?: false,
+        partialPay = paymentDataMap["partialPay"] as? Boolean ?: false,
+        isCarne = paymentDataMap["isCarne"] as? Boolean ?: false
+      )
+      doAsyncPayment(plugPag, paymentData, ::sendEvent, promise)
+    } 
   }
 }
