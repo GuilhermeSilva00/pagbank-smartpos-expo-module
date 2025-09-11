@@ -16,8 +16,6 @@ fun doAsyncPayment(
 ) {
   println("doAsyncPayment data: $paymentData")
 
-  var countPassword = 0
-
   val paymentType: Int
   paymentType = when (paymentData.type) {
     1 -> PlugPag.TYPE_CREDITO
@@ -51,10 +49,12 @@ fun doAsyncPayment(
     ),
     object : PlugPagPaymentListener {
       override fun onSuccess(result: PlugPagTransactionResult) {
+        println("onSuccess result: $result")
         val response = mapTransactionResult(result)
         promise.resolve(mapOf(
           "status" to "success",
-          "data" to response
+          "data" to response,
+          "isVoid" to false
         ))
       }
 
@@ -87,13 +87,12 @@ fun doAsyncPayment(
         )
       }
 
-
       override fun onPrinterSuccess(printerResult: PlugPagPrintResult) {
         sendEvent(
           "onChangePaymentPrint",
           mapOf(
             "status" to "success",
-            "data" to printerResult
+            "data" to mapPrintResult(printerResult)
           )
         )
       }
@@ -103,7 +102,7 @@ fun doAsyncPayment(
           "onChangePaymentPrint",
           mapOf(
             "status" to "error",
-            "data" to printerResult
+            "data" to mapPrintResult(printerResult)
           )
         )
       }
@@ -115,6 +114,14 @@ private fun mapEventData(data: PlugPagEventData): Map<String, Any?> {
   return mapOf(
     "eventCode" to data.eventCode,
     "customMessage" to data.customMessage
+  )
+}
+
+private fun mapPrintResult(result: PlugPagPrintResult): Map<String, Any?> {
+  return mapOf(
+    "result" to result.result,
+    "errorCode" to result.errorCode,
+    "message" to result.message
   )
 }
 

@@ -8,9 +8,12 @@ import expo.modules.kotlin.Promise
 
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagPaymentData
+import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagVoidData
 
 import expo.modules.pagbanksmartposexpomodule.usecases.doAsyncInitializeAndActivatePinpad
 import expo.modules.pagbanksmartposexpomodule.usecases.doAsyncPayment
+import expo.modules.pagbanksmartposexpomodule.usecases.doAsyncVoidPayment
+import expo.modules.pagbanksmartposexpomodule.usecases.doAsyncAbort
 
 class PagbankSmartposExpoModule : Module() {
   private val TAG = "PagbankSmartposExpoModule"
@@ -33,6 +36,10 @@ class PagbankSmartposExpoModule : Module() {
       "onChangePaymentPassword"
     )
 
+    Function("getSerialNumber") {
+      return@Function plugPag.getSerialNumber()
+    }
+
     AsyncFunction("doAsyncInitializeAndActivatePinpad") { activationCode: String, promise: Promise ->
       doAsyncInitializeAndActivatePinpad(
         plugPag,
@@ -54,6 +61,19 @@ class PagbankSmartposExpoModule : Module() {
         isCarne = paymentDataMap["isCarne"] as? Boolean ?: false
       )
       doAsyncPayment(plugPag, paymentData, ::sendEvent, promise)
-    } 
+    }
+
+    AsyncFunction("doAsyncVoidPayment") { paymentDataMap: Map<String, Any>, promise: Promise ->
+      val paymentData = PlugPagVoidData(
+        transactionCode = (paymentDataMap["transactionCode"] as String),
+        transactionId = (paymentDataMap["transactionId"] as String),
+        printReceipt = paymentDataMap["printReceipt"] as? Boolean ?: false
+      )
+      doAsyncVoidPayment(plugPag, paymentData, ::sendEvent, promise)
+    }
+
+    AsyncFunction("doAsyncAbort"){ promise: Promise ->
+      doAsyncAbort(plugPag, promise)
+    }
   }
 }
