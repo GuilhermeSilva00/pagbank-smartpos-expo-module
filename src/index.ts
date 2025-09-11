@@ -1,4 +1,49 @@
 // Reexport the native module. On web, it will be resolved to PagbankSmartposExpoModule.web.ts
 // and on native platforms to PagbankSmartposExpoModule.ts
-export { default } from './PagbankSmartposExpoModule';
-export * from  './PagbankSmartposExpoModule.types';
+export { default as PagbankSmartposExpoModule } from './PagbankSmartposExpoModule';
+export * from './PagbankSmartposExpoModule.types';
+
+//Types
+import {
+  OnLoadEventPayload,
+  onChangePayload,
+  ActivationResult,
+  ActivationError,
+  PrintResult,
+  PagbankSmartposExpoModuleEvents,
+  ChangeEventPayload,
+  TransactionPayload,
+  VoidPaymentPayload,
+  TransactionResult,
+  AbortResult,
+} from './PagbankSmartposExpoModule.types';
+
+// Wrappers
+import PagbankSmartposExpoModule from './PagbankSmartposExpoModule';
+
+export async function doAsyncInitializeAndActivatePinpad(
+  value: string
+): Promise<ActivationResult> {
+  return PagbankSmartposExpoModule.doAsyncInitializeAndActivatePinpad(value);
+}
+
+export async function doAsyncPayment(
+  paymentData: TransactionPayload
+): Promise<TransactionResult> {
+  return PagbankSmartposExpoModule.doAsyncPayment(paymentData);
+}
+
+export async function doAsyncVoidPayment(
+  paymentData: VoidPaymentPayload
+): Promise<TransactionResult> {
+  return PagbankSmartposExpoModule.doAsyncVoidPayment(paymentData);
+}
+
+export async function doAsyncAbort(): Promise<AbortResult> {
+  return PagbankSmartposExpoModule.doAsyncAbort();
+}
+
+export function getSerialNumber(): string {
+  return PagbankSmartposExpoModule.getSerialNumber();
+}
+
