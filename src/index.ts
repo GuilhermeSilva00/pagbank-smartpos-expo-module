@@ -3,17 +3,21 @@
 export { default as PagbankSmartposExpoModule } from './PagbankSmartposExpoModule';
 export * from './PagbankSmartposExpoModule.types';
 
-//Types
+export { default as PagbankSmartposExpoModule } from "./PagbankSmartposExpoModule";
+
+export * from "./PagbankSmartposExpoModule.types";
+
+export { useEvent } from "expo";
+
+//Wrappers
+import PagbankSmartposExpoModule from "./PagbankSmartposExpoModule";
 import {
   ActivationResult,
   TransactionPayload,
   VoidPaymentPayload,
   TransactionResult,
   AbortResult,
-} from './PagbankSmartposExpoModule.types';
-
-// Wrappers
-import PagbankSmartposExpoModule from './PagbankSmartposExpoModule';
+} from "./PagbankSmartposExpoModule.types";
 
 export async function doAsyncInitializeAndActivatePinpad(
   value: string
