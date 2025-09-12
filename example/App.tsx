@@ -1,5 +1,5 @@
 import { useEvent } from 'expo';
-import PagbankSmartposExpoModule, { TransactionResult } from 'pagbank-smartpos-expo-module';
+import { PagbankSmartposExpoModule, TransactionResult } from 'pagbank-smartpos-expo-module';
 import { Image, Text, View, StyleSheet } from 'react-native';
 import React from 'react';
 import { 

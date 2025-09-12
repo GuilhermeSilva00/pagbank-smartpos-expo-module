@@ -3,10 +3,6 @@
 export { default as PagbankSmartposExpoModule } from './PagbankSmartposExpoModule';
 export * from './PagbankSmartposExpoModule.types';
 
-export * from "./PagbankSmartposExpoModule.types";
-
-export { useEvent } from "expo";
-
 //Wrappers
 import PagbankSmartposExpoModule from "./PagbankSmartposExpoModule";
 import {
