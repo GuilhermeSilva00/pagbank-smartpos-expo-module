@@ -1,4 +1,4 @@
-import { TransactionResult, PagbankListener } from 'pagbank-smartpos-expo-module';
+import { TransactionResult, PagbankListener, onChangePayload, PrintResult } from 'pagbank-smartpos-expo-module';
 import { Image, Text, View, StyleSheet } from 'react-native';
 import React from 'react';
 import { 
@@ -23,16 +23,16 @@ export default function App() {
   const [onChangePaymentMessage, setOnChangePaymentMessage] = React.useState("");
 
   React.useEffect(() => {
-    const paymentSubscription = PagbankListener("onChangePayment", (event) => {
+    const paymentSubscription = PagbankListener("onChangePayment", (event: onChangePayload) => {
       setOnChangePaymentMessage(event?.data?.customMessage || "");
       console.log("📡 Pagamento:", event);
     });
 
-    const passwordSubscription = PagbankListener("onChangePaymentPassword", (event) => {
+    const passwordSubscription = PagbankListener("onChangePaymentPassword", (event: onChangePayload) => {
       console.log("🔑 Senha:", event);
     });
 
-    const printSubscription = PagbankListener("onChangePaymentPrint", (event) => {
+    const printSubscription = PagbankListener("onChangePaymentPrint", (event: PrintResult) => {
       console.log("🖨 Impressão:", event);
     });
 
