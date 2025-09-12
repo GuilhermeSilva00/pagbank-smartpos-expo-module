@@ -3,8 +3,6 @@
 export { default as PagbankSmartposExpoModule } from './PagbankSmartposExpoModule';
 export * from './PagbankSmartposExpoModule.types';
 
-export { default as PagbankSmartposExpoModule } from "./PagbankSmartposExpoModule";
-
 export * from "./PagbankSmartposExpoModule.types";
 
 export { useEvent } from "expo";
