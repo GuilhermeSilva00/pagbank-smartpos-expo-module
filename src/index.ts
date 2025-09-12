@@ -5,13 +5,7 @@ export * from './PagbankSmartposExpoModule.types';
 
 //Types
 import {
-  OnLoadEventPayload,
-  onChangePayload,
   ActivationResult,
-  ActivationError,
-  PrintResult,
-  PagbankSmartposExpoModuleEvents,
-  ChangeEventPayload,
   TransactionPayload,
   VoidPaymentPayload,
   TransactionResult,
