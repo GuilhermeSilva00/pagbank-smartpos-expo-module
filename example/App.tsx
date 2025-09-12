@@ -1,5 +1,4 @@
-import { useEvent } from 'expo';
-import { PagbankSmartposExpoModule, TransactionResult } from 'pagbank-smartpos-expo-module';
+import { TransactionResult, PagbankListener } from 'pagbank-smartpos-expo-module';
 import { Image, Text, View, StyleSheet } from 'react-native';
 import React from 'react';
 import { 
@@ -17,20 +16,35 @@ import Activation from './components/activation';
 import Button from './components/button';
 
 export default function App() {
-  const onChangePayment = useEvent(PagbankSmartposExpoModule, 'onChangePayment');
-  const onChangePaymentPassword = useEvent(PagbankSmartposExpoModule, 'onChangePaymentPassword');
-  const onChangePaymentPrint = useEvent(PagbankSmartposExpoModule, 'onChangePaymentPrint');
 
   const [result, setResult] = React.useState<TransactionResult | null>(null);
   const [loading, setLoading] = React.useState(false);
   const [isActive, setIsActive] = React.useState(false);
+  const [onChangePaymentMessage, setOnChangePaymentMessage] = React.useState("");
 
-  console.log('onChangePayment: ', onChangePayment);
-  console.log('onChangePaymentPassword: ', onChangePaymentPassword);
-  console.log('onChangePaymentPrint: ', onChangePaymentPrint);
+  React.useEffect(() => {
+    const paymentSubscription = PagbankListener("onChangePayment", (event) => {
+      setOnChangePaymentMessage(event?.data?.customMessage || "");
+      console.log("📡 Pagamento:", event);
+    });
+
+    const passwordSubscription = PagbankListener("onChangePaymentPassword", (event) => {
+      console.log("🔑 Senha:", event);
+    });
+
+    const printSubscription = PagbankListener("onChangePaymentPrint", (event) => {
+      console.log("🖨 Impressão:", event);
+    });
+
+    return () => {
+      paymentSubscription.remove();
+      passwordSubscription.remove();
+      printSubscription.remove();
+    };
+  }, []);
 
   const INSERT_CARD_MESSAGE = "APROXIME, INSIRA OU PASSE O CARTÃO";
-  const abortIsAvailable = onChangePayment?.data?.customMessage === INSERT_CARD_MESSAGE
+  const abortIsAvailable = onChangePaymentMessage === INSERT_CARD_MESSAGE
 
   React.useEffect(() => {
     async function terminalIsActive() {
@@ -131,7 +145,7 @@ export default function App() {
     <View style={styles.container}>
       <View style={styles.resultContainer}>
         <Image source={require("./assets/pagseguro-logo.png")} resizeMode="center" style={styles.logo}/>
-        <Text style={styles.label}>{onChangePayment?.data?.customMessage}</Text>
+        <Text style={styles.label}>{onChangePaymentMessage}</Text>
       </View>
       <View style={styles.buttonContainer}>
         <Button label='Vender R$ 1,00' loading={loading} onPress={handleDoAsyncPayment}/>
