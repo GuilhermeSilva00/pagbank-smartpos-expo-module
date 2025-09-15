@@ -11,7 +11,6 @@ import {
   VoidPaymentPayload,
   TransactionResult,
   AbortResult,
-  PagbankSmartposExpoModuleEvents,
 } from "./PagbankSmartposExpoModule.types";
 
 export async function doAsyncInitializeAndActivatePinpad(
@@ -38,14 +37,5 @@ export async function doAsyncAbort(): Promise<AbortResult> {
 
 export function getSerialNumber(): string {
   return PagbankSmartposExpoModule.getSerialNumber();
-}
-
-type EventKeys = keyof PagbankSmartposExpoModuleEvents;
-
-export function PagbankListener<K extends EventKeys>(
-  event: K,
-  listener: PagbankSmartposExpoModuleEvents[K]
-) {
-  return PagbankSmartposExpoModule.addListener(event, listener);
 }
 
