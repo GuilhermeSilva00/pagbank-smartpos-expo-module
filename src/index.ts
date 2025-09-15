@@ -3,6 +3,8 @@
 export { default as PagbankSmartposExpoModule } from './PagbankSmartposExpoModule';
 export * from './PagbankSmartposExpoModule.types';
 
+import { EventSubscription } from 'expo-modules-core';
+
 //Wrappers
 import PagbankSmartposExpoModule from "./PagbankSmartposExpoModule";
 import {
@@ -11,6 +13,8 @@ import {
   VoidPaymentPayload,
   TransactionResult,
   AbortResult,
+  onChangePayload,
+  PrintResult,
 } from "./PagbankSmartposExpoModule.types";
 
 export async function doAsyncInitializeAndActivatePinpad(
@@ -37,5 +41,17 @@ export async function doAsyncAbort(): Promise<AbortResult> {
 
 export function getSerialNumber(): string {
   return PagbankSmartposExpoModule.getSerialNumber();
+}
+
+export function PaymentListener(listener: (event: onChangePayload) => void): EventSubscription {
+  return PagbankSmartposExpoModule.addListener('onChangePayment', listener);
+}
+
+export function PaymentPasswordListener(listener: (event: onChangePayload) => void): EventSubscription {
+  return PagbankSmartposExpoModule.addListener('onChangePaymentPassword', listener);
+}
+
+export function PaymentPrintListener(listener: (event: PrintResult) => void): EventSubscription {
+  return PagbankSmartposExpoModule.addListener('onChangePaymentPrint', listener);
 }
 
