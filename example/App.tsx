@@ -1,5 +1,5 @@
-import { TransactionResult, PagbankListener, onChangePayload, PrintResult } from 'pagbank-smartpos-expo-module';
-import { Image, Text, View, StyleSheet } from 'react-native';
+import { TransactionResult, onChangePayload, PrintResult, PagbankSmartposExpoModule } from 'pagbank-smartpos-expo-module';
+import { Image, Text, View, StyleSheet, NativeEventEmitter } from 'react-native';
 import React from 'react';
 import { 
   ACTIVATION_TEST_CODE, 
@@ -17,30 +17,33 @@ import Button from './components/button';
 
 export default function App() {
 
+  const eventEmitter = new NativeEventEmitter(PagbankSmartposExpoModule as any);
+
   const [result, setResult] = React.useState<TransactionResult | null>(null);
   const [loading, setLoading] = React.useState(false);
   const [isActive, setIsActive] = React.useState(false);
   const [onChangePaymentMessage, setOnChangePaymentMessage] = React.useState("");
 
   React.useEffect(() => {
-    const paymentSubscription = PagbankListener("onChangePayment", (event: onChangePayload) => {
-      setOnChangePaymentMessage(event?.data?.customMessage || "");
+    const paymentSubscription = eventEmitter.addListener('onChangePaymentMessage', (event: onChangePayload) => {
       console.log("📡 Pagamento:", event);
+      setOnChangePaymentMessage(event?.data?.customMessage ?? "");
     });
+    return () => paymentSubscription.remove();
+  }, []);
 
-    const passwordSubscription = PagbankListener("onChangePaymentPassword", (event: onChangePayload) => {
+  React.useEffect(() => {
+    const passwordSubscription = eventEmitter.addListener('onChangePaymentPassword', (event: onChangePayload) => {
       console.log("🔑 Senha:", event);
     });
+    return () => passwordSubscription.remove();
+  }, []);
 
-    const printSubscription = PagbankListener("onChangePaymentPrint", (event: PrintResult) => {
+  React.useEffect(() => {
+    const printSubscription = eventEmitter.addListener('onChangePaymentPrint', (event: PrintResult) => {
       console.log("🖨 Impressão:", event);
     });
-
-    return () => {
-      paymentSubscription.remove();
-      passwordSubscription.remove();
-      printSubscription.remove();
-    };
+    return () => printSubscription.remove();
   }, []);
 
   const INSERT_CARD_MESSAGE = "APROXIME, INSIRA OU PASSE O CARTÃO";
