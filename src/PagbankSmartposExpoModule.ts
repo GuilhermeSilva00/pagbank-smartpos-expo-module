@@ -7,6 +7,8 @@ import {
   AbortResult,
   TransactionPayload,
   VoidPaymentPayload,
+  onChangePayload,
+  PrintResult
 } from './PagbankSmartposExpoModule.types';
 
 declare class PagbankSmartposExpoModule extends NativeModule<PagbankSmartposExpoModuleEvents> {
@@ -15,6 +17,18 @@ declare class PagbankSmartposExpoModule extends NativeModule<PagbankSmartposExpo
   doAsyncVoidPayment(paymentData: VoidPaymentPayload): Promise<TransactionResult>;
   doAsyncAbort(): Promise<AbortResult>;
   getSerialNumber(): string;
+  addListener(
+    eventName: "onChangePayment",
+    listener: (event: onChangePayload) => void
+  ): { remove: () => void };
+  addListener(
+    eventName: "onChangePaymentPassword",
+    listener: (event: onChangePayload) => void
+  ): { remove: () => void };
+  addListener(
+    eventName: "onChangePaymentPrint",
+    listener: (event: PrintResult) => void
+  ): { remove: () => void };
 }
 
 // This call loads the native module object from the JSI.
