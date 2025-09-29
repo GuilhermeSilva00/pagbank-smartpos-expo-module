@@ -1,6 +1,6 @@
 # pagbank-smartpos-expo-module
 
-EN: Expo module library to simplify integration with PagBank SmartPOS
+Expo module library to simplify integration with PagBank SmartPOS
 
 ## Installation
 
