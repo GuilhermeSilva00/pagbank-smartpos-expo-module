@@ -27,33 +27,33 @@ You can check all function and listener examples in src/example/app.tsx
 ## API Reference
 Functions
 
-doAsyncInitializeAndActivatePinpad
+doAsyncInitializeAndActivatePinpad:
 Initialize and activate the pinpad.
 
-doAsyncPayment
+doAsyncPayment:
 Starts a payment operation.
 
-doAsyncAbort
+doAsyncAbort:
 Aborts the current transaction.
 
-doAsyncVoidPayment
+doAsyncVoidPayment:
 Performs a void (cancellation) of a previous payment.
 
-getSerialNumber
+getSerialNumber:
 Returns the SmartPOS device serial number.
 
-PagbankSmartposExpoModule
+PagbankSmartposExpoModule:
 Default exported module object (contains methods and listener registration helpers).
 
 Listeners
 
-onChangePayment
+onChangePayment:
 Called on every change in the payment state/flow.
 
-onChangePaymentPassword
+onChangePaymentPassword:
 Called on every change during password input (e.g. when user types PIN).
 
-onChangePaymentPrint
+onChangePaymentPrint:
 Called on every change related to printing.
 
 ** All function and listener examples are available in src/example/app.tsx. ** 
