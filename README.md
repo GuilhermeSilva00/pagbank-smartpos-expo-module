@@ -22,7 +22,7 @@ import {
 } from 'pagbank-smartpos-expo-module';
 ```
 
-You can check all function and listener examples in src/example/app.tsx
+You can check all function and listener examples in example/App.tsx
 
 ## API Reference
 Functions
@@ -56,7 +56,7 @@ Called on every change during password input (e.g. when user types PIN).
 onChangePaymentPrint:
 Called on every change related to printing.
 
-** All function and listener examples are available in src/example/app.tsx. ** 
+** All function and listener examples are available in example/App.tsx ** 
 
 ## Contributing
 
