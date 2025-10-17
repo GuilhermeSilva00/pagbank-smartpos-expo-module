@@ -1,9 +1,8 @@
-# pagbank-smartpos-expo-module
+# 💳 pagbank-smartpos-expo-module
 
 [Expo](https://expo.dev) module library to simplify integration with PagBank SmartPOS
 
-## Installation
-
+## 🚀 Installation
 
 ```bash
 npm i pagbank-smartpos-expo-module
@@ -18,51 +17,52 @@ import {
   doAsyncAbort,
   doAsyncVoidPayment,
   getSerialNumber,
-  PagbankSmartposExpoModule 
-} from 'pagbank-smartpos-expo-module';
+  PagbankSmartposExpoModule,
+} from "pagbank-smartpos-expo-module";
 ```
 
-You can check all function and listener examples in example/App.tsx
+📁 You can check all function and listener examples in example/App.tsx
 
-## API Reference
-Functions
+## 📚 API Reference
 
-doAsyncInitializeAndActivatePinpad:
+### 🔧 Functions
+
+**doAsyncInitializeAndActivatePinpad:**
 Initialize and activate the pinpad.
 
-doAsyncPayment:
+**doAsyncPayment:**
 Starts a payment operation.
 
-doAsyncAbort:
+**doAsyncAbort:**
 Aborts the current transaction.
 
-doAsyncVoidPayment:
+**doAsyncVoidPayment:**
 Performs a void (cancellation) of a previous payment.
 
-getSerialNumber:
+**getSerialNumber:**
 Returns the SmartPOS device serial number.
 
-PagbankSmartposExpoModule:
+**PagbankSmartposExpoModule:**
 Default exported module object (contains methods and listener registration helpers).
 
-Listeners
+### 🎧 Listeners
 
-onChangePayment:
+**onChangePayment:**
 Called on every change in the payment state/flow.
 
-onChangePaymentPassword:
+**onChangePaymentPassword:**
 Called on every change during password input (e.g. when user types PIN).
 
-onChangePaymentPrint:
+**onChangePaymentPrint:**
 Called on every change related to printing.
 
-** All function and listener examples are available in example/App.tsx ** 
+** 📘 All function and listener examples are available in example/App.tsx **
 
 ## Contributing
 
-Pull requests are welcome. For major changes, please open an issue first
+🤝 Pull requests are welcome. For major changes, please open an issue first
 to discuss what you would like to change.
 
-## License
+## 📄 License
 
 [MIT](https://choosealicense.com/licenses/mit/)
