@@ -21,6 +21,11 @@ import {
 } from "pagbank-smartpos-expo-module";
 ```
 
+<div style="display: flex; gap: 10px;">
+  <img src="./assets/smartpos1.jpeg" width="200" />
+  <img src="./assets/smartpos2.jpeg" width="200" />
+</div>
+
 📁 You can check all function and listener examples in example/App.tsx
 
 ## 📚 API Reference
