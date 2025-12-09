@@ -106,3 +106,9 @@ export type TransactionResult = {
 export type AbortResult = {
   data: boolean;
 }
+
+export type PrintFileResult = {
+  result: number;
+  message?: string;
+  errorCode?: string;
+}

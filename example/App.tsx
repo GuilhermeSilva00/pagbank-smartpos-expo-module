@@ -1,5 +1,5 @@
 import { TransactionResult, onChangePayload, PrintResult, PagbankSmartposExpoModule } from 'pagbank-smartpos-expo-module';
-import { Image, Text, View, StyleSheet } from 'react-native';
+import { Image, Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { 
   ACTIVATION_TEST_CODE, 
@@ -8,12 +8,18 @@ import {
 import { doAsyncPayment } from './PlugPagModule/doAsyncPayment';
 import { doAsyncVoidPayment } from './PlugPagModule/doAsyncVoidPayment';
 import { doAsyncAbort } from './PlugPagModule/doAsyncAbort';
+import { doAsyncPrintFile } from './PlugPagModule/doAsyncPrintFile';
 import { getSerialNumber as getSerial } from './PlugPagModule/getSerialNumber';
+import Feather from '@expo/vector-icons/Feather';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as FileSystem from "expo-file-system";
+import { Asset } from "expo-asset";
 
 import Activation from './components/activation';
 import Button from './components/button';
+
+const pagseguro_image = require("./assets/pagseguro-logo.png");
 
 export default function App() {
 
@@ -147,12 +153,45 @@ export default function App() {
     return serial;
   }
 
+  async function getLocalAssetFile(assetModule: number) { // <-- Create a print path to local image
+    const asset = Asset.fromModule(assetModule);
+
+    await asset.downloadAsync();
+
+    const destPath = FileSystem.documentDirectory + asset.name;
+
+    await FileSystem.copyAsync({
+      from: asset.localUri!,
+      to: destPath,
+    });
+
+    return destPath.replace("file://", "");
+  }
+
+  async function handleDoAsyncPrintFile() {
+    try {
+      const filePath = await getLocalAssetFile(pagseguro_image);
+      console.log("filePath: ", filePath)
+      const response = await doAsyncPrintFile(filePath);
+      console.log("PrintFile response: ", response)
+    } catch (error) {
+      console.log("PrintFile error: ", error)
+    }
+  }
+
   if(!isActive) {
     return <Activation onActivateTerminal={handleDoAsyncInitializeAndActivatePinpad} loading={loading}  />
   }
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity 
+        style={styles.printButton}
+        onPress={handleDoAsyncPrintFile}
+        disabled={loading}
+      >
+        <Feather name="printer" size={24} color="#000" />
+      </TouchableOpacity>
       <View style={styles.resultContainer}>
         <Image source={require("./assets/pagseguro-logo.png")} resizeMode="center" style={styles.logo}/>
         <Text style={styles.label}>{onChangePaymentMessage}</Text>
@@ -193,5 +232,19 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#eee',
     margin: 6
+  },
+  printButton: {
+    position: "absolute",
+    top: 40,
+    right: 10,
+    backgroundColor: "#fce42c",
+    padding: 12,
+    borderRadius: 30,
+    elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    zIndex: 10,
   },
 })

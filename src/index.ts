@@ -11,6 +11,7 @@ import {
   VoidPaymentPayload,
   TransactionResult,
   AbortResult,
+  PrintFileResult,
 } from "./PagbankSmartposExpoModule.types";
 
 export async function doAsyncInitializeAndActivatePinpad(
@@ -37,5 +38,9 @@ export async function doAsyncAbort(): Promise<AbortResult> {
 
 export function getSerialNumber(): string {
   return PagbankSmartposExpoModule.getSerialNumber();
+}
+
+export async function doAsyncPrintFile(filePath: string): Promise<PrintFileResult> {
+  return PagbankSmartposExpoModule.doAsyncPrintFile(filePath);
 }
 

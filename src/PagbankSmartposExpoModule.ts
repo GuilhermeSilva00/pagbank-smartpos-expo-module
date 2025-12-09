@@ -8,7 +8,8 @@ import {
   TransactionPayload,
   VoidPaymentPayload,
   onChangePayload,
-  PrintResult
+  PrintResult,
+  PrintFileResult,
 } from './PagbankSmartposExpoModule.types';
 
 declare class PagbankSmartposExpoModule extends NativeModule<PagbankSmartposExpoModuleEvents> {
@@ -17,6 +18,7 @@ declare class PagbankSmartposExpoModule extends NativeModule<PagbankSmartposExpo
   doAsyncVoidPayment(paymentData: VoidPaymentPayload): Promise<TransactionResult>;
   doAsyncAbort(): Promise<AbortResult>;
   getSerialNumber(): string;
+  doAsyncPrintFile(filePath: string): Promise<PrintFileResult>;
   addListener(
     eventName: "onChangePayment",
     listener: (event: onChangePayload) => void

@@ -14,6 +14,7 @@ import expo.modules.pagbanksmartposexpomodule.usecases.doAsyncInitializeAndActiv
 import expo.modules.pagbanksmartposexpomodule.usecases.doAsyncPayment
 import expo.modules.pagbanksmartposexpomodule.usecases.doAsyncVoidPayment
 import expo.modules.pagbanksmartposexpomodule.usecases.doAsyncAbort
+import expo.modules.pagbanksmartposexpomodule.usecases.doAsyncPrintFile
 
 class PagbankSmartposExpoModule : Module() {
   private val TAG = "PagbankSmartposExpoModule"
@@ -74,6 +75,10 @@ class PagbankSmartposExpoModule : Module() {
 
     AsyncFunction("doAsyncAbort"){ promise: Promise ->
       doAsyncAbort(plugPag, promise)
+    }
+
+    AsyncFunction("doAsyncPrintFile"){ filePath: String, promise: Promise ->
+      doAsyncPrintFile(plugPag, filePath, promise)
     }
   }
 }
