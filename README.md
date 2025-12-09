@@ -47,6 +47,9 @@ Performs a void (cancellation) of a previous payment.
 **getSerialNumber:**
 Returns the SmartPOS device serial number.
 
+🆕 **doAsyncPrintFile:** 
+Starts a print file operation
+
 **PagbankSmartposExpoModule:**
 Default exported module object (contains methods and listener registration helpers).
 
