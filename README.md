@@ -17,6 +17,7 @@ import {
   doAsyncAbort,
   doAsyncVoidPayment,
   getSerialNumber,
+  doAsyncPrintFile,
   PagbankSmartposExpoModule,
 } from "pagbank-smartpos-expo-module";
 ```
