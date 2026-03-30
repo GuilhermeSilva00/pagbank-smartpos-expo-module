@@ -1,6 +1,6 @@
 {
   "name": "pagbank-smartpos-expo-module",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Module to integrate Pagbank Smartpos",
   "main": "build/index.js",
   "types": "build/index.d.ts",
