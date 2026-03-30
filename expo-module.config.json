@@ -6,8 +6,8 @@
   "android": {
     "gradleAarProjects": [
       {
-        "name": "wrapper-1.30.51",
-        "aarFilePath": "android/libs/wrapper-1.30.51.aar"
+        "name": "wrapper-1.33.0.aar",
+        "aarFilePath": "android/libs/wrapper-1.33.0.aar.aar"
       }
     ],
     "modules": ["expo.modules.pagbanksmartposexpomodule.PagbankSmartposExpoModule"]
